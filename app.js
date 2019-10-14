@@ -7,12 +7,8 @@ const session = require("express-session");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const flash = require("connect-flash");
-const mongo = require("mongodb");
-const mongoose = require("mongoose");
 const expressValidator = require("express-validator");
 const messages = require("express-messages");
-
-const db = mongoose.connection;
 
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");

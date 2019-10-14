@@ -1,8 +1,10 @@
-var express = require("express");
-var router = express.Router();
+const express = require("express");
+const router = express.Router();
 const multer = require("multer");
 
-const upload = multer({ dest: "../uploads" });
+const upload = multer({ dest: "./uploads" });
+
+const User = require("../models/user");
 
 /* GET users listing. */
 router.get("/", function(req, res, next) {
@@ -26,7 +28,6 @@ router.post("/register", upload.single("profileimage"), function(
   const email = req.body.email;
   const username = req.body.username;
   const password = req.body.password;
-  const password2 = req.body.password2;
 
   let profileImage;
 
@@ -43,8 +44,8 @@ router.post("/register", upload.single("profileimage"), function(
   // form validator
   req.checkBody("name", "Name field is required").notEmpty();
   req.checkBody("email", "Email field is required").notEmpty();
-  req.checkBody("email", "Email is not valid").notEmpty();
-  req.checkBody("username", "Username field is required").isEmail();
+  req.checkBody("email", "Email is not valid").isEmail();
+  req.checkBody("username", "Username field is required").notEmpty();
   req.checkBody("password", "Password field is required").notEmpty();
   req
     .checkBody("password2", "Passwords do not match")
@@ -56,7 +57,26 @@ router.post("/register", upload.single("profileimage"), function(
   if (errors) {
     res.render("register", { errors });
   } else {
-    console.log("No errors");
+    const newUser = new User({
+      name,
+      email,
+      username,
+      password,
+      profileImage
+    });
+
+    User.createUser(newUser, function(err, user) {
+      if (err) {
+        throw err;
+      } else {
+        console.log(user);
+      }
+    });
+
+    req.flash("success", "You are now registered and can login");
+
+    res.location("/");
+    res.redirect("/");
   }
 });
 
