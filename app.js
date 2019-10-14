@@ -6,14 +6,11 @@ const logger = require("morgan");
 const session = require("express-session");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
-const multer = require("multer");
 const flash = require("connect-flash");
 const mongo = require("mongodb");
 const mongoose = require("mongoose");
 const expressValidator = require("express-validator");
 const messages = require("express-messages");
-
-const upload = multer({ dest: "./uploads" });
 
 const db = mongoose.connection;
 
