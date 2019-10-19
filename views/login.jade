@@ -3,7 +3,7 @@ extends layout
 block content
   h2.page-header Login
   p Please login below
-  for(method='post', action='/users/login')
+  form(method='post', action='/users/login')
     .form-group
       label Username
       input.form-control(name='username', type='text', placeholder='Enter Username')
